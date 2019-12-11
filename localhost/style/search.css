@@ -1,4 +1,9 @@
+.search_block input {
+	margin: 6px 0px;
+}
+
 .search_block {
+	margin: 10px 0px 0px 0px;
 	border: solid 1px;
 	padding: 10px 20px;
 }

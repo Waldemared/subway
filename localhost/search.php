@@ -1,8 +1,4 @@
 <?php
-	header ("Content-Type: text/html; charset=utf-8");
-?>
-
-<?php
 	$hostname = "127.0.0.1:3306";
 	$username = "root";
 	$password = "";
@@ -53,9 +49,9 @@
 			echo "<div class=\"search_block\">";
 			echo "Найдено станций: " . mysqli_num_rows($linesResult);
 			echo "<form action=\"/search.php\" id=\"search_block\">
-					<input type=\"text\" name=\"name\" value=\"$name\"></input>
-					<input type=\"number\" name=\"year_min\" value=\"$reqMinYear\" min=\"$minYear\" max=\"$maxYear\"></input>
-					<input type=\"number\" name=\"year_max\" value=\"$reqMaxYear\" min=\"$minYear\" max=\"$maxYear\"></input>
+					Название <input type=\"text\" name=\"name\" value=\"$name\"></input><br>
+					Дата открытия: с <input type=\"number\" name=\"year_min\" value=\"$reqMinYear\" min=\"$minYear\" max=\"$maxYear\"></input>
+					до <input type=\"number\" name=\"year_max\" value=\"$reqMaxYear\" min=\"$minYear\" max=\"$maxYear\"></input><br>
 					<select name=\"line\" form=\"search_block\">
 						<option value=\"0\">All</option>";
 			$lineResult = mysqli_query($connection, "select name, id from line order by id");
@@ -82,64 +78,6 @@
 			print_r($line);
 			echo "</pre>";
 		}
-
-
-/*
-		$name = $_POST["name"];
-		$areacode = $_POST["areacode"];
-		$phonenum = $_POST["phonenum"];
-		$group = $_POST["group"];
-
-		if ($name != "" && $areacode != "" && $phonenum != ""
-				&& is_numeric($areacode) && is_numeric($phonenum)) {
-			$query = "INSERT INTO numbers (name, areacode, phonenum, g_id) VALUES (\"$name\", $areacode, $phonenum, $group)";
-			if(!mysqli_query($connection, $query)) {
-				die('Error:'. mysqli_error($connection));
-			}
-			echo "1 record added";
-		}
-
-		$query = "SELECT*FROM numbers n LEFT JOIN groups g ON g.id=n.g_id ORDER BY n.name";
-		$result = mysqli_query($connection, $query);
-
-		if(mysqli_num_rows($result) == 0) {
-			echo "Sorry, empty book <br><br>";
-		} else {
-			echo "<table border='1' cols='4' cellpadding='0' cellspacing='0'>";
-			echo "<tr><td>Name</td><td>Areacode</td><td>Phonenum</td><td>Group</td></tr>";
-			while ($row = mysqli_fetch_assoc($result)) {
-				echo "<tr>";
-				echo "<td>".$row["name"]."</td>";
-				echo "<td>".$row["areacode"]."</td>";
-				echo "<td>".$row["phonenum"]."</td>";
-				echo "<td>".$row["group_name"]."</td>";
-				echo "</tr>";
-			}	
-			echo "</table><br>";
-		}
-
-		echo "<form action='/phonebook/index.php' method='post' name='phonebook_form'>";
-		echo "<table border='0' cols='4' cellpadding='0' cellspacing='0' width='400'>";
-		echo "<tr>";
-		echo "<td>Name: <input type='text' name='name'></input></td>";
-		echo "<td>Areacode: <input type='text' name='areacode'></input></td>";
-		echo "<td>Phone: <input type='text' name='phonenum'></input></td>";
-		echo "<td>Group: <select name='group'>";
-		$query = "SELECT*FROM groups ORDER BY group_name";
-		$result = mysqli_query($connection, $query);
-		while ($row = mysqli_fetch_assoc($result)) {
-			echo "<option value='".$row["id"]."'>".$row["group_name"]."</option>";
-		}
-		echo "</select></td>";
-		echo "</tr>";
-		echo "</table>";
-		echo "<table border='0' cols='3' cellpadding='0' cellspacing='0'>";
-		echo "<tr>";
-		echo "<td><input type='submit' name='insert' value='Insert'></input></td>";
-		echo "</tr>";
-		echo "</table>";
-		echo "</form>";
-*/
 		mysqli_close($connection);	
 	?>
 	</div>

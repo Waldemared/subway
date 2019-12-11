@@ -13,8 +13,9 @@
 		mysqli_set_charset($connection, "utf8");
 	$lineIndex = $_GET['line'];
 	$stationIndex = $_GET['station'];
+	$titleText = $lineIndex ? ($stationIndex ? "Обзор станции " : "Обзор линии " . $lineIndex) : "Обзор";
 	$line = array();
-	$lineQuery = "select name, path from line where id = $lineIndex";
+	$lineQuery = "select name, path, color from line where id = $lineIndex";
 	$lineResult = mysqli_query($connection, $lineQuery);
 ?>
 <html>
@@ -22,24 +23,19 @@
 	<meta http-equiv = "Content-Type" content ="text/html; charset=utf-8" />
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 	<link rel="stylesheet" type="text/css" href="/style/card.css">
+	<link rel="stylesheet" type="text/css" href="/style/slideshow.css">
+	<link rel="stylesheet" type="text/css" href="/style/footer.css">
 	<link rel="stylesheet" type="text/css" href="/style/main.css">
 	<link rel="stylesheet" type="text/css" href="/style/header.css">
-	<title></title>
-	<style>
-		td {
-			padding: 10px;
-		}
-	</style>
+	<script async src="/js/slideshow.js"></script>
+	<title><?php echo $titleText; ?></title>
 </head>
 <body>
 	<?php include('./header.php'); ?>
 	<div class="content">
 	<?php
 		if ($lineResult != false && mysqli_num_rows($lineResult)) {
-			$lineRow = mysqli_fetch_assoc($lineResult);
-			$line['id'] = $lineIndex;
-			$line['name'] = $lineRow['name'];
-			$line['path'] = $lineRow['path'];
+			$line = mysqli_fetch_assoc($lineResult);
 			$line['stations'] = array();
 			$stationQuery = "select * from station where line_id = $lineIndex order by position";
 			$stationResult = mysqli_query($connection, $stationQuery);
@@ -49,17 +45,54 @@
 			if ($line['stations'][$stationIndex] != null) {
 				$station = $line['stations'][$stationIndex];
 
-				echo "Станция: " . $station['name'] . "<br>";
-				echo "Год основания: : " . $station['foundation_year'] . "<br>";
+			echo "<div class=\"content_nav\">";
+			if ($stationIndex >= 2) {
+				echo "<a style=\"color: " . $line['color'] . ";\" href=\"/observe.php?line=" . $lineIndex  . "&station=" . ($station['position'] - 1) . "\">&#10094;&#10094;&#10094; " . $line['stations'][$stationIndex - 1]['name'] . "</a>   ";
+			}
+			echo $station['name'];
+			if ($stationIndex < count($line['stations']))
+			echo "<a style=\"color: " . $line['color'] . ";\" href=\"/observe.php?line=" . $lineIndex  . "&station=" . ($station['position'] + 1) . "\">" . $line['stations'][$stationIndex + 1]['name'] . " &#10095;&#10095;&#10095;</a>";
+			echo "</div>";
+			echo "<div class=\"description\">";
+			echo "Станция: " . $station['name'] . "<br>";
+			echo "Год основания: : " . $station['foundation_year'] . "<br>";
+			echo "<a href=\"https://ru.wikipedia.org/wiki/" . $station['name'] . "_(станция_метро)\">Статья на Википедии</a> <br>";
+			echo $station['description'];
+			echo "</div>";
+			echo "<div class=\"slideshow-container\">";
 
-				if ($stationIndex >= 2) {
-					echo "<a href=\"/observe.php?line=" . $lineIndex  . "&station=" . ($station['position'] - 1) . "\">Предыдущая станция: " . $line['stations'][$stationIndex - 1]['name'] . "</a>   ";
-				}
+			$imageCount = 1;
+			while (file_exists('./image/' . $line['path'] . '/' . $station['position'] . '_' . $imageCount . '.jpg')) {
+				$imageCount++;
+			}
+			$imageCount--;
 
-				echo $station['name'];
+			
+			for ($i = 1; $i <= $imageCount; $i++) {
+				echo "<div class=\"mySlides fade\">
+					    <div class=\"numbertext\">" . $i . "/" . $imageCount . "</div>
+					    <img src=\"/image/" . $line['path'] . '/' . $station['position'] . '_' . $i . ".jpg\" style=\"width:100%\">
+					  </div>";
+			}
+			echo "	  <a class=\"prev\" onclick=\"plusSlides(-1)\">&#10094;</a>
+					  <a class=\"next\" onclick=\"plusSlides(1)\">&#10095;</a>
+					</div>
+					<br>
 
-				if ($stationIndex < count($line['stations']))
-				echo "   <a href=\"/observe.php?line=" . $lineIndex  . "&station=" . ($station['position'] + 1) . "\">Следующая станция: " . $line['stations'][$stationIndex + 1]['name'] . "</a>";
+					<!-- The dots/circles -->
+					<div style=\"text-align:center\">";
+			for ($i = 1; $i <= $imageCount; $i++)
+				echo "<span class=\"dot\" onclick=\"currentSlide(" . $i . ")\"></span>";
+					  
+				echo "</div>
+					</div>";
+	?>
+			<script>
+
+			</script>;
+
+	<?php
+					
 			} else {
 				$tempStation = $line['stations'][$i];
 				echo "<div class=\"card_container\">";
@@ -73,13 +106,6 @@
   					</div></div>";
 				}
 				echo "</div>";
-			}
-
-
-			if (true) {
-				echo "<pre>";
-				print_r($line);
-				echo "</pre>";
 			}
 		} else {
 			echo "<div class=\"card_container\">";
@@ -104,13 +130,10 @@
 					</div></div>";
 			}
 			echo "</div>";
-			echo "<pre>";
-			print_r($lineArray);
-			echo "</pre>";
 		}
 		mysqli_close($connection);	
 	?>
 	</div>
-
+	<?php include('./footer.php'); ?>
 </body>
 </html>
