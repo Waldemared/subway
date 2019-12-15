@@ -1,3 +1,10 @@
+.content {
+	margin-left: auto;
+	margin-right: auto;
+	width: 80%;
+	min-height: 86%;
+}
+
 .description {
 	padding: 10px 15px;
 	margin: 1% 17%;
@@ -18,12 +25,7 @@ body {
 	padding: 0px;
 }
 
-.content {
-	margin-left: auto;
-	margin-right: auto;
-	width: 80%;
-	min-height: 100%;
-}
+
 
 .content_nav {
 	text-align: center;

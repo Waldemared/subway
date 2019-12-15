@@ -54,6 +54,8 @@
 			echo "<a style=\"color: " . $line['color'] . ";\" href=\"/observe.php?line=" . $lineIndex  . "&station=" . ($station['position'] + 1) . "\">" . $line['stations'][$stationIndex + 1]['name'] . " &#10095;&#10095;&#10095;</a>";
 			echo "</div>";
 			echo "<div class=\"description\">";
+			echo "Линия: ";
+			echo "<a style=\"color: " . $line['color'] . ";\" href=\"/observe.php?line=" . $lineIndex . "\">" . $line['name'] . "</a><br>";
 			echo "Станция: " . $station['name'] . "<br>";
 			echo "Год основания: : " . $station['foundation_year'] . "<br>";
 			echo "<a href=\"https://ru.wikipedia.org/wiki/" . $station['name'] . "_(станция_метро)\">Статья на Википедии</a> <br>";

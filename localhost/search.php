@@ -20,27 +20,12 @@
 <html>
 <head>
 	<meta http-equiv = "Content-Type" content ="text/html; charset=utf-8" />
-	<title>Phonebook</title>
-	<style>
-		td {
-			padding: 10px;
-		}
-	</style>
-</head>
-<html>
-<head>
-	<meta http-equiv = "Content-Type" content ="text/html; charset=utf-8" />
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 	<link rel="stylesheet" type="text/css" href="/style/card.css">
 	<link rel="stylesheet" type="text/css" href="/style/main.css">
 	<link rel="stylesheet" type="text/css" href="/style/header.css">
 	<link rel="stylesheet" type="text/css" href="/style/search.css">
-	<title></title>
-	<style>
-		td {
-			padding: 10px;
-		}
-	</style>
+	<title>Поиск</title>
 </head>
 <body>
 	<?php include('./header.php'); ?>

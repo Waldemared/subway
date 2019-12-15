@@ -9,6 +9,7 @@
   	  	echo "<li><a href=\"/observe.php?line=" . $lineRow['id'] . "\" style=\"color: " . $lineRow['color'] . "\">" . $lineRow['name'] . "</a></li>";
   	  }
   ?>
+  <li><a href="http://www.metro.spb.ru/map/route.html" target="_blank">Интерактивная навигация</a></li>
   <li style="float: right;">
   	<form action="search.php">
   		<input type="text" name="name" placeholder="Введите строку">
